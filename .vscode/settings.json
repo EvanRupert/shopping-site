@@ -1,0 +1,12 @@
+{
+    "search.exclude": {
+        "**/.git": true,
+        "**/shopping_site_web/node_modules": true,
+        "**/_build": true,
+        "**/deps": true
+    },
+
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": true
+}

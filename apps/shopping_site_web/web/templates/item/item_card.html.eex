@@ -1,0 +1,11 @@
+<div class="col s4">
+    <div class="card">
+        <div class="card-image">
+            <img src="<%= static_path(@conn, "/images/#{@item.image_url}") %>">
+        </div>
+        <div class="card-content">
+            <h5><%= @item.name %></h5>
+            <p><%= @item.description %></p>
+        </div>
+    </div>
+</div>

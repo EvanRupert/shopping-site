@@ -1,0 +1,9 @@
+<%= for group <- group_into @items, 3 do %>
+    <div class="row">
+        <%= for item <- group do %>
+            <div class="col s4">
+                <%= render "item_card.html", item: item, conn: @conn %>
+            </div>
+        <%= end %>
+    </div>
+<%= end %>
