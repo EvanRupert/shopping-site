@@ -32,4 +32,13 @@ defmodule ShoppingSite.ItemQueries do
 
         Repo.all(query)
     end
+
+    def insert_item(name, description, price, image_url) do
+        Repo.insert!(%Items{ name: name, description: description, price: price, image_url: image_url})
+    end
+
+    def delete_by_id(id) do
+        Repo.delete!(%Items{id: id})
+    end
+
 end

@@ -4,7 +4,7 @@ defmodule ShoppingSite.Items do
     schema "items" do
         field :name,        :string
         field :description, :string
-        field :price,       :float
+        field :price,       :decimal
         field :image_url,   :string
 
         timestamps
