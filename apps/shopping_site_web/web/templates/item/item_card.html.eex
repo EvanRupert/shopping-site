@@ -1,11 +1,16 @@
-<div class="col s4">
-    <div class="card">
-        <div class="card-image">
-            <img src="<%= static_path(@conn, "/images/#{@item.image_url}") %>">
+<div class="card">
+    <div class="card-image">
+        <img src="<%= static_path(@conn, "/images/#{@item.image_url}") %>">
+    </div>
+    <div class="card-content">
+        <div class="row">
+            <div class="col s9">
+                <h5><%= @item.name %>
+            </div>
+            <div class="col s3">
+                <h5 class="card-price"><%= to_string @item.price %></h5>
+            </div>
         </div>
-        <div class="card-content">
-            <h5><%= @item.name %></h5>
-            <p><%= @item.description %></p>
-        </div>
+        <p><%= @item.description %></p>
     </div>
 </div>

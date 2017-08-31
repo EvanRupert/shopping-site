@@ -22,9 +22,9 @@ defmodule ShoppingSite.ItemQueries do
         Repo.get(query, id)
     end
 
-    def get_item_by_prefix(prefix) do
+    def search_items(search) do
 
-        search = "%" <> prefix <> "%"
+        search = "%" <> search <> "%"
 
         query = from itm in Items,
                     where: ilike(itm.name, ^search),

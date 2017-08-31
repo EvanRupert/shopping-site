@@ -1,3 +1,7 @@
+# TODO: Fix search bar design (move button to be inline with text field)
+# TODO: Attempt to enable hot reloading for search function
+
+
 defmodule ShoppingSiteWeb.Router do
   use ShoppingSiteWeb.Web, :router
 
@@ -18,6 +22,8 @@ defmodule ShoppingSiteWeb.Router do
 
     get "/", PageController, :index
     get "/items", ItemController, :list
+
+    post "/search", ItemController, :search
   end
 
 

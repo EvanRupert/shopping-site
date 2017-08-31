@@ -1,3 +1,7 @@
+<%= form_for @conn, item_path(@conn, :search), [name: :search], fn f -> %>
+  <%= text_input f, :query %>
+  <%= submit "Search" %>
+<% end %>
 <%= for group <- group_into @items, 3 do %>
     <div class="row">
         <%= for item <- group do %>
