@@ -19,3 +19,25 @@ import "phoenix_html"
 // paths "./socket" or full ones "web/static/js/socket".
 
 // import socket from "./socket"
+
+
+import ElmTest from './main.js'
+
+const elmDiv = document.querySelector('#elm_test');
+
+if (elmDiv) {
+    ElmTest.Main.embed(elmDiv);
+}
+
+
+
+function initListPage() {
+    $('.button-collapse').sideNav();
+}
+
+
+function opepSideNav() {
+    console.log('something');
+    $('.button-collapse').sideNav('show');
+}
+
