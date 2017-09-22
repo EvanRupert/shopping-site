@@ -1,0 +1,23 @@
+{
+  "name": "shopping_site",
+  "version": "1.0.0",
+  "description": "A shopping website prototype using elixir/phoenix",
+  "main": "index.js",
+  "dependencies": {
+    "jquery": "^3.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "mix test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EvanRupert/shopping-site.git"
+  },
+  "author": "Evan Rupert",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EvanRupert/shopping-site/issues"
+  },
+  "homepage": "https://github.com/EvanRupert/shopping-site#readme"
+}

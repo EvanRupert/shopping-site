@@ -21,28 +21,34 @@ import "phoenix_html"
 // import socket from "./socket"
 
 
-import ElmTest from './itemList.js'
+import Elm from './itemlist.js'
 
-const elmDiv = document.querySelector('#elm_test');
 
-if (elmDiv) {
-    ElmTest.Main.embed(elmDiv, {
-        something: 'something',
-        somethingElse: 'something else'
-    });
-}
+import socket from './socket'
 
 
 
+let node = document.getElementById('elm_test');
 
 
-function initListPage() {
-    $('.button-collapse').sideNav();
-}
+let channel = socket.channel("item:1", {});
+
+channel.on("items", items => {
+    console.log("Received Items" + items.payload);
 
 
-function opepSideNav() {
-    console.log('something');
-    $('.button-collapse').sideNav('show');
-}
+    if (node) {
+        Elm.ItemList.embed(node, {
+            items: items.payload
+        });
+    }
+});
+
+
+channel.join()
+    .receive("ok", resp => { console.log("Joined") })
+    .receive("error", resp => { console.log("Error") });
+
+
+
 

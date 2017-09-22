@@ -4,6 +4,8 @@ defmodule ShoppingSiteWeb.UserSocket do
   ## Channels
   # channel "room:*", ShoppingSiteWeb.RoomChannel
 
+  channel "item:*", ShoppingSiteWeb.ItemChannel
+
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
   # transport :longpoll, Phoenix.Transports.LongPoll
