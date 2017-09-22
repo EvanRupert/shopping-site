@@ -1,42 +1,39 @@
--- FIXME: Data is being sent to the javascript but the elm is not
--- loading for some reason
+-- FIXME: Elm has received the items but the json decoder is failing
 
 
 module ItemList exposing (..)
 
 import Html exposing (..)
 import Json.Decode as Json
+import Ports exposing (itemLoad)
+import Types exposing (..)
 
 
-
-main : Program Flags Model Msg
-main = programWithFlags { init = init
-                        , view = view
-                        , update = update
-                        , subscriptions = \_ -> Sub.none
-                        }
-
--- Types
-
-type Msg
-    = Nothing
+-- TESTING
+-- main : Html msg
+-- main =
+--     text "Hello, World!"
 
 
-type alias Flags = { items : String }
+main : Program Never Model Msg
+main = program { init = init
+               , view = view
+               , update = update
+               , subscriptions = \_ -> Sub.none
+               }
 
-type alias Item = { name : String
-                  , description : String
-                  , price : Float
-                  , imageUrl : String
-                  }
-
-type alias Model = { items : List Item }
+--****************************INIT*********************************
 
 
-init : Flags -> (Model, Cmd Msg)
-init flags = 
-    { items = decodeJson flags.items } ! []
+-- init : Flags -> (Model, Cmd Msg)
+-- init flags = 
+--     { items = flags.payload
+--               |> decodeJson
+--               |> Debug.log "Elm received items" 
+--     } ! []
 
+init : (Model, Cmd Msg)
+init = { items = [] } ! []
 
 
 defaultItem : Item
@@ -54,7 +51,7 @@ itemDecoder =
         (Json.at ["name"] Json.string)
         (Json.at ["description"] Json.string)
         (Json.at ["price"] Json.float)
-        (Json.at ["imageUrl"] Json.string)
+        (Json.at ["image_url"] Json.string)
 
 
 decodeJson : String -> List Item
@@ -64,11 +61,14 @@ decodeJson str =
     in
         Result.withDefault [defaultItem] result
 
--- View
+--*****************************VIEW*******************************
 
 view : Model -> Html Msg
 view model = 
-    div [] <| List.map viewItem model.items
+    div []
+        [ h1 [] [ text "Hello, World!" ]
+        , div [] <| List.map viewItem model.items
+        ]
 
 
 viewItem : Item -> Html Msg
@@ -81,9 +81,23 @@ viewItem item =
         ]
 
 
--- Update
+--*****************************UPDATE******************************
 
 update : Msg -> Model -> (Model, Cmd Msg)
-update msg model = model ! []
+update msg model =
+    case msg of
+        NoChange -> model ! []
 
+        ItemLoad(items) ->
+            { model | items = items
+                              |> decodeJson
+                              |> Debug.log "Elm received items" 
+            } ! []
+
+
+--****************************SUBSCRIPTIONS*************************
+
+subscriptions : (Model -> Sub Msg)
+subscriptions model = 
+    itemLoad ItemLoad
 
