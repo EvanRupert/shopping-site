@@ -21,13 +21,18 @@ import "phoenix_html"
 // import socket from "./socket"
 
 
-import ElmTest from './main.js'
+import ElmTest from './itemList.js'
 
 const elmDiv = document.querySelector('#elm_test');
 
 if (elmDiv) {
-    ElmTest.Main.embed(elmDiv);
+    ElmTest.Main.embed(elmDiv, {
+        something: 'something',
+        somethingElse: 'something else'
+    });
 }
+
+
 
 
 
