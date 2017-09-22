@@ -7,7 +7,6 @@ defmodule ShoppingSiteWeb.PageController do
 
   def test(conn, _params) do
     items = ShoppingSite.ItemQueries.get_all_items
-    ShoppingSiteWeb.ItemChannel.send_update items
-    render conn, "test.html"
+    render conn, "test.html", items: items
   end
 end

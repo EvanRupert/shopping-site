@@ -5,7 +5,6 @@ module ItemList exposing (..)
 
 import Html exposing (..)
 import Json.Decode as Json
-import Ports exposing (itemLoad)
 import Types exposing (..)
 
 
@@ -15,12 +14,12 @@ import Types exposing (..)
 --     text "Hello, World!"
 
 
-main : Program Never Model Msg
-main = program { init = init
-               , view = view
-               , update = update
-               , subscriptions = \_ -> Sub.none
-               }
+main : Program Flags Model Msg
+main = programWithFlags { init = init
+                        , view = view
+                        , update = update
+                        , subscriptions = \_ -> Sub.none
+                        }
 
 --****************************INIT*********************************
 
@@ -32,8 +31,11 @@ main = program { init = init
 --               |> Debug.log "Elm received items" 
 --     } ! []
 
-init : (Model, Cmd Msg)
-init = { items = [] } ! []
+init : Flags -> (Model, Cmd Msg)
+init flags = { items = flags.payload
+                       |> decodeJson
+                       |> Debug.log "Elm received items"
+             } ! []
 
 
 defaultItem : Item
@@ -88,16 +90,4 @@ update msg model =
     case msg of
         NoChange -> model ! []
 
-        ItemLoad(items) ->
-            { model | items = items
-                              |> decodeJson
-                              |> Debug.log "Elm received items" 
-            } ! []
-
-
---****************************SUBSCRIPTIONS*************************
-
-subscriptions : (Model -> Sub Msg)
-subscriptions model = 
-    itemLoad ItemLoad
 

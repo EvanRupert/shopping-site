@@ -7795,8 +7795,6 @@ var _elm_lang$html$Html$summary = _elm_lang$html$Html$node('summary');
 var _elm_lang$html$Html$menuitem = _elm_lang$html$Html$node('menuitem');
 var _elm_lang$html$Html$menu = _elm_lang$html$Html$node('menu');
 
-var _user$project$Ports$itemLoad = _elm_lang$core$Native_Platform.incomingPort('itemLoad', _elm_lang$core$Json_Decode$string);
-
 var _user$project$Types$Flags = function (a) {
 	return {payload: a};
 };
@@ -7807,14 +7805,16 @@ var _user$project$Types$Item = F4(
 var _user$project$Types$Model = function (a) {
 	return {items: a};
 };
-var _user$project$Types$ItemLoad = function (a) {
-	return {ctor: 'ItemLoad', _0: a};
-};
 var _user$project$Types$NoChange = {ctor: 'NoChange'};
 
-var _user$project$ItemList$subscriptions = function (model) {
-	return _user$project$Ports$itemLoad(_user$project$Types$ItemLoad);
-};
+var _user$project$ItemList$update = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		return A2(
+			_elm_lang$core$Platform_Cmd_ops['!'],
+			model,
+			{ctor: '[]'});
+	});
 var _user$project$ItemList$viewItem = function (item) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -7940,35 +7940,18 @@ var _user$project$ItemList$decodeJson = function (str) {
 		},
 		result);
 };
-var _user$project$ItemList$update = F2(
-	function (msg, model) {
-		var _p0 = msg;
-		if (_p0.ctor === 'NoChange') {
-			return A2(
-				_elm_lang$core$Platform_Cmd_ops['!'],
-				model,
-				{ctor: '[]'});
-		} else {
-			return A2(
-				_elm_lang$core$Platform_Cmd_ops['!'],
-				_elm_lang$core$Native_Utils.update(
-					model,
-					{
-						items: A2(
-							_elm_lang$core$Debug$log,
-							'Elm received items',
-							_user$project$ItemList$decodeJson(_p0._0))
-					}),
-				{ctor: '[]'});
-		}
-	});
-var _user$project$ItemList$init = A2(
-	_elm_lang$core$Platform_Cmd_ops['!'],
-	{
-		items: {ctor: '[]'}
-	},
-	{ctor: '[]'});
-var _user$project$ItemList$main = _elm_lang$html$Html$program(
+var _user$project$ItemList$init = function (flags) {
+	return A2(
+		_elm_lang$core$Platform_Cmd_ops['!'],
+		{
+			items: A2(
+				_elm_lang$core$Debug$log,
+				'Elm received items',
+				_user$project$ItemList$decodeJson(flags.payload))
+		},
+		{ctor: '[]'});
+};
+var _user$project$ItemList$main = _elm_lang$html$Html$programWithFlags(
 	{
 		init: _user$project$ItemList$init,
 		view: _user$project$ItemList$view,
@@ -7976,7 +7959,14 @@ var _user$project$ItemList$main = _elm_lang$html$Html$program(
 		subscriptions: function (_p1) {
 			return _elm_lang$core$Platform_Sub$none;
 		}
-	})();
+	})(
+	A2(
+		_elm_lang$core$Json_Decode$andThen,
+		function (payload) {
+			return _elm_lang$core$Json_Decode$succeed(
+				{payload: payload});
+		},
+		A2(_elm_lang$core$Json_Decode$field, 'payload', _elm_lang$core$Json_Decode$string)));
 
 var Elm = {};
 Elm['ItemList'] = Elm['ItemList'] || {};

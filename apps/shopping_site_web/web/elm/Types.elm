@@ -2,7 +2,6 @@ module Types exposing (..)
 
 type Msg
     = NoChange
-    | ItemLoad(String)
 
 
 type alias Flags = { payload : String }
@@ -14,4 +13,6 @@ type alias Item = { name : String
                   }
 
 type alias Model = { items : List Item }
+
+
 

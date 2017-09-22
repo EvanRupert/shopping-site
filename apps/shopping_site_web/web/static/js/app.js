@@ -23,40 +23,41 @@ import "phoenix_html"
 // import item from './item.js'
 
 import socket from './socket'
+
 import Elm from './itemlist.js'
+
+let items = document.getElementById('items').innerHTML;
 
 let node = document.getElementById('elm_test');
 
-if(node) {
-    console.log('JavaScript found elm_test');
-    var app = Elm.ItemList.embed(node);
-} else {
-    console.log('JavaScript did not find elm_test');
-}
+var app = Elm.ItemList.embed(node, {
+    payload: items
+});
 
 
-(function() {
-    let channel = socket.channel("item:1", {});
 
-    channel.on("items", items => {
-        console.log("JavaScript Received items");
+// (function() {
+//     let channel = socket.channel("item:1", {});
 
-        // let node = document.getElementById('elm_test');
+//     channel.on("items", items => {
+//         console.log("JavaScript Received items");
 
-        // if(node) {
-        //     console.log('JavaScript found elm_test');
-        //     Elm.ItemList.embed(node, {
-        //         payload: items.payload
-        //     });
-        // } else {
-        //     console.log('JavaScript did not find elm_test');
-        // }
+//         // let node = document.getElementById('elm_test');
 
-        app.ports.itemLoad.send(items.payload)
-    });
+//         // if(node) {
+//         //     console.log('JavaScript found elm_test');
+//         //     Elm.ItemList.embed(node, {
+//         //         payload: items.payload
+//         //     });
+//         // } else {
+//         //     console.log('JavaScript did not find elm_test');
+//         // }
+
+//         app.ports.itemLoad.send(items.payload);
+//     });
 
 
-    channel.join()
-        .receive("ok", resp => { console.log("Joined item channel") })
-        .receive("error", resp => { console.log("Error joining item channel") });
-})();
+//     channel.join()
+//         .receive("ok", resp => { console.log("Joined item channel") })
+//         .receive("error", resp => { console.log("Error joining item channel") });
+// })();

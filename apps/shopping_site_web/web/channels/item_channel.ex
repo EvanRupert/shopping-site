@@ -15,14 +15,14 @@ defmodule ShoppingSiteWeb.ItemChannel do
     end
 
 
-    defp encode_items(items) do
+    def encode_items(items) do
         items
         |> Enum.map(&price_to_float/1)
         |> Poison.encode!
     end
 
 
-    defp price_to_float(item) do
+    def price_to_float(item) do
         price = item.price
         %{ item | price: Decimal.to_float(price) }
     end
