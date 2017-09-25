@@ -15,4 +15,3 @@ type alias Item = { name : String
 type alias Model = { items : List Item }
 
 
-

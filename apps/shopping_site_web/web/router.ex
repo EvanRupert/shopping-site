@@ -31,8 +31,6 @@ defmodule ShoppingSiteWeb.Router do
     get "/items", ItemController, :list
 
     post "/search", ItemController, :search
-
-    get "/testing", PageController, :test
   end
 
 

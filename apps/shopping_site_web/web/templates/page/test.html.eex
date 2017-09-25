@@ -1,2 +1,0 @@
-<div id="elm_test"></div>
-<p id="items" style="visibility:hidden;"><%= encode_items @items %></p>

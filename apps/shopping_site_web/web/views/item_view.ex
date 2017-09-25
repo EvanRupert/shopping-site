@@ -1,14 +1,21 @@
 defmodule ShoppingSiteWeb.ItemView do
     use ShoppingSiteWeb.Web, :view
 
-    # FIXME: group_into function is causing problems with the eex file
-    # datatype list of maps with id, name, description, price, inserted_at, and updated_at fields with values
+  def encode_items(image_path, items) do
+    items
+    |> Enum.map(&price_to_float/1)
+    |> Enum.map(&(complete_image_path(image_path, &1)))
+    |> Poison.encode!
+  end
 
-    def group_into([], _), do: []
-    def group_into(l, n) when n > 0 do
-        left = Enum.take(l, n)
-        right = Enum.drop(l, n)
-        [left | group_into(right, n)]
-    end
+
+  def price_to_float(%{ price: price } = item) do
+      %{ item | price: Decimal.to_float(price) }
+  end
+
+  def complete_image_path(image_path, %{ image_url: path } = item) do
+    full_path = image_path <> path
+    { item | image_url: full_path }
+  end
 
 end
