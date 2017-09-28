@@ -60,8 +60,7 @@ decodeJson str =
 view : Model -> Html Msg
 view model = 
     div []
-        [ h1 [] [ text "Hello, World!" ]
-        , div [ class "container" ] (model.items
+        [ div [ class "container" ] (model.items
                                     |> groupInto 3
                                     |> List.map viewGroup
                                     )
