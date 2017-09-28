@@ -56,7 +56,7 @@ exports.config = {
     elmBrunch: {
       elmFolder: 'web/elm',
       mainModules: ['Main.elm', 'ItemList.elm'],
-      outputFolder: '../static/js',
+      outputFolder: '../static/js/elm',
     },
 
     babel: {

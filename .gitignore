@@ -24,3 +24,6 @@ erl_crash.dump
 
 # ignore elm installed modules
 /apps/shopping_site_web/web/elm/elm-stuff
+
+# ignore all of the compiled elm javascript files
+/apps/shopping_site_web/web/static/js/elm

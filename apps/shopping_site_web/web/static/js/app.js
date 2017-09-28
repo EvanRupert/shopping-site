@@ -24,7 +24,7 @@ import "phoenix_html"
 
 import socket from './socket'
 
-import Elm from './itemlist.js'
+import Elm from './elm/itemlist.js'
 
 let items = document.getElementById('elm_item_list_transfer').innerHTML;
 
