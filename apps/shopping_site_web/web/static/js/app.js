@@ -28,7 +28,7 @@ import Elm from './itemlist.js'
 
 let items = document.getElementById('elm_item_list_transfer').innerHTML;
 
-let staticPath = document.getElementById('static_path');
+let node = document.getElementById('elm_item_list');
 
 var app = Elm.ItemList.embed(node, {
     payload: items

@@ -39,7 +39,6 @@ defaultItem = { name = "Invalid"
               }
 
 
-
 itemDecoder : Json.Decoder Item
 itemDecoder = 
     Json.map4 Item
