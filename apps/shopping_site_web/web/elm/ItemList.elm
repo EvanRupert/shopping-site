@@ -5,16 +5,11 @@ module ItemList exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing ( onInput )
 
 import Json.Decode as Json
 import Types exposing (..)
 
-
-
--- TESTING
--- main : Html msg
--- main =
---     text "Hello, World!"
 
 
 main : Program Flags Model Msg
@@ -28,7 +23,14 @@ main = programWithFlags { init = init
 
 
 init : Flags -> (Model, Cmd Msg)
-init flags = { items = decodeJson flags.payload } ! []
+init flags = 
+    let
+        items = decodeJson flags.payload
+    in
+        { allItems = items
+        , visibleItems = items
+        , searchText = ""
+        } ! []
 
 
 defaultItem : Item
@@ -60,7 +62,13 @@ decodeJson str =
 view : Model -> Html Msg
 view model = 
     div []
-        [ div [ class "container" ] (model.items
+        [ input [ type_ "text"
+                , placeholder "Search"
+                , class "form-control"
+                , id "search"
+                , onInput SearchChange
+                ] []
+        , div [ class "container" ] (model.visibleItems
                                     |> groupInto 3
                                     |> List.map viewGroup
                                     )
@@ -74,7 +82,7 @@ viewGroup items =
 
 viewItem : Item -> Html Msg
 viewItem item = 
-    div [ class "col" ]
+    div [ class "col-md-4" ]
     [
         div [ class "card" ]
             [ img [ class "card-img-top", src item.imageUrl ] []
@@ -98,6 +106,15 @@ groupInto n l =
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
     case msg of
-        NoChange -> model ! []
+        SearchChange search ->
+            let
+                items = model.allItems
+            in
+                { model | visibleItems = searchFilter search items } ! []
 
 
+searchFilter : String -> List Item -> List Item
+searchFilter str = 
+    List.filter (\i -> String.contains 
+                        (String.toUpper str) 
+                        (String.toUpper i.name))

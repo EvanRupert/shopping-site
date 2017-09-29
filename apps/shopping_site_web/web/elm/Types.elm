@@ -1,7 +1,7 @@
 module Types exposing (..)
 
 type Msg
-    = NoChange
+    = SearchChange String
 
 
 type alias Flags = { payload : String }
@@ -12,6 +12,9 @@ type alias Item = { name : String
                   , imageUrl : String
                   }
 
-type alias Model = { items : List Item }
+type alias Model = { allItems : List Item
+                   , visibleItems : List Item
+                   , searchText : String
+                   }
 
 
