@@ -2,7 +2,13 @@ module Types exposing (..)
 
 type Msg
     = SearchChange String
+    | ExpandFilters
+    | FilterPriceMinChange String
+    | FilterPriceMaxChange String
 
+type Ordering
+    = Alphabetic
+    | ReverseAlphabetic
 
 type alias Flags = { payload : String }
 
@@ -14,7 +20,21 @@ type alias Item = { name : String
 
 type alias Model = { allItems : List Item
                    , visibleItems : List Item
-                   , searchText : String
+                   , filtering : Filter
                    }
 
+type alias Filter = { searchText : String
+                    , expandedFilterMenu : Bool
+                    , price : PriceFilter
+                    , error : String
+                    , orderBy : Ordering
+                    , yearAdded : YearFilter
+                    }
 
+type alias PriceFilter = { minVal : Float
+                         , maxVal : Float
+                         }
+
+type alias YearFilter = { minVal : Float
+                        , maxVal : Float
+                        }
