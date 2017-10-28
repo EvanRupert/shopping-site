@@ -16,7 +16,10 @@ view model =
                 , id "search"
                 , onInput SearchChange
                 ] []
-        , if model.expandedFilters then filtersMenu model else expandFiltersButton model
+        , if model.filtering.expandedFilterMenu then 
+            filtersMenu model 
+          else 
+            expandFiltersButton model
         , div [ class "container" ] (model.visibleItems
                                     |> groupInto 3
                                     |> List.map viewGroup
@@ -30,24 +33,59 @@ expandFiltersButton model =
            , class "btn btn-secondary btn-lg btn-block"
            , onClick ExpandFilters 
            ]  
-        [ text "Additional Filters" ]
+        [ text "Advanced" ]
 
 
 filtersMenu : Model -> Html Msg
 filtersMenu model = 
-    div [ class "card" ]
+    div [ class "card border-secondary" ]
         [ div [ class "row" ]
-            [ div [ class "col-3"] 
-                [ h6 [] [ text "Price"]
-                , Html.form []
-                    [ label [ for "minimumPrice" ] [ text "Minimum" ]
-                    , input [ id "minimumPrice", onInput FilterPriceMinnge ] []
-                    , label [ for "maximumPrice" ] [ text "Maximum" ] []
-                    , input [ id "maximumPrice", onInput FilterPriceMaxChange ] []
-                    ]
-                ]
+            [ div [ class "col-4" ] <| priceFilterMenu model
+            , div [ class "col-4" ] <| orderingMenu model
+            , div [ class "col-4" ] <| yearFilterMenu model
+            ]
+        , button [ type_ "button"
+                 , class "btn btn-secondary btn-lg btn-block"
+                 , onClick ExpandFilters
+                 ] [ text "Close Advanced" ]
+        ]
+
+-- TODO: Implement function
+orderingMenu : Model -> List (Html Msg)
+orderingMenu model = 
+    [ div [] []
+    ]
+
+-- TODO: Implement function
+yearFilterMenu : Model -> List (Html Msg)
+yearFilterMenu model =
+    [ div [] []
+    ]
+
+
+priceFilterMenu : Model -> List (Html Msg)
+priceFilterMenu model =
+    [ h6 [] [ text "Price"]
+    , div [ class "row" ]
+        [ div [ class "col-5" ]
+            [ label [ for "minimumPrice" ] []
+            , input [ id "minimumPrice"
+                    , class "price-filter-input"
+                    , onInput FilterPriceMinChange
+                    ] []
+            ]
+        , div [ class "col-2" ]
+            [ p [] [ text "to" ]
+            ]
+        , div [ class "col-5" ]
+            [ label [ for "maximumPrice" ] []
+            , input [ id "maximumPrice"
+                    , class "price-filter-input"
+                    , onInput FilterPriceMaxChange 
+                    ] []
             ]
         ]
+    ]
 
 
 viewGroup : List Item -> Html Msg

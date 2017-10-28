@@ -25,10 +25,10 @@ type alias Model = { allItems : List Item
 
 type alias Filter = { searchText : String
                     , expandedFilterMenu : Bool
-                    , price : PriceFilter
-                    , error : String
+                    , price : Maybe PriceFilter
+                    , error : Maybe String
                     , orderBy : Ordering
-                    , yearAdded : YearFilter
+                    , yearAdded : Maybe YearFilter
                     }
 
 type alias PriceFilter = { minVal : Float

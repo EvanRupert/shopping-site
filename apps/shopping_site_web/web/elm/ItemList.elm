@@ -1,4 +1,6 @@
--- FIXME: Elm has received the items but the json decoder is failing
+-- TODO: Implement price filtering from filters box
+-- TODO: Implement ordering from filters box
+-- TODO: Implement year added filtering
 
 
 module ItemList exposing (..)
@@ -27,8 +29,13 @@ init flags =
     in
         { allItems = items
         , visibleItems = items
-        , searchText = ""
-        , expandedFilters = False
+        , filtering = { searchText = ""
+                      , expandedFilterMenu = False
+                      , price = Nothing 
+                      , error = Nothing
+                      , orderBy = Alphabetic
+                      , yearAdded = Nothing
+                      }
         } ! []
 
 
