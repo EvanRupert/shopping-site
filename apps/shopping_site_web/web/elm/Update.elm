@@ -24,7 +24,14 @@ update msg model =
         FilterPriceMinChange str -> model ! [] --TODO implement
 
         FilterPriceMaxChange str -> model ! [] --TODO implement
-        
+
+        OrderingChange ordering -> --TODO implement actuall
+            let
+                oldFiltering = model.filtering
+            in
+                { model |
+                    filtering = { oldFiltering | orderBy = ordering }
+                } ! []
 
 
 searchFilter : String -> List Item -> List Item

@@ -5,6 +5,7 @@ type Msg
     | ExpandFilters
     | FilterPriceMinChange String
     | FilterPriceMaxChange String
+    | OrderingChange Ordering
 
 type Ordering
     = Alphabetic

@@ -7,6 +7,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing ( onInput, onClick )
 
 
+
 view : Model -> Html Msg
 view model = 
     div []
@@ -17,7 +18,7 @@ view model =
                 , onInput SearchChange
                 ] []
         , if model.filtering.expandedFilterMenu then 
-            filtersMenu model 
+            filtersMenu model
           else 
             expandFiltersButton model
         , div [ class "container" ] (model.visibleItems
@@ -53,8 +54,24 @@ filtersMenu model =
 -- TODO: Implement function
 orderingMenu : Model -> List (Html Msg)
 orderingMenu model = 
-    [ div [] []
+    [ label [ for "orderingSelect"] [ text "Ordering:" ]
+    , Html.select [ class "form-control"
+                  , id "orderingSelect" 
+                  , onInput ( stringToOrdering >> OrderingChange)
+                  ]
+        [ option [] [ text "Alphabetic" ]
+        , option [] [ text "Reverse Alphabetic" ] --TODO: add additional orderings
+        ]
     ]
+
+
+stringToOrdering : String -> Ordering
+stringToOrdering str = 
+    case str of
+        "Alphabetic" -> Alphabetic
+        "Reverse Alphabetic" -> ReverseAlphabetic --TODO: add additional orderings
+        _ -> Debug.crash "Ordering select list threw unexpected result"
+
 
 -- TODO: Implement function
 yearFilterMenu : Model -> List (Html Msg)
