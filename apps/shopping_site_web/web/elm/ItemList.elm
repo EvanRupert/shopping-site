@@ -31,10 +31,10 @@ init flags =
         , visibleItems = items
         , filtering = { searchText = ""
                       , expandedFilterMenu = False
-                      , price = Nothing 
+                      , priceFilter = Nothing 
                       , error = Nothing
-                      , orderBy = Alphabetic
-                      , yearAdded = Nothing
+                      , ordering = Alphabetic
+                      , yearFilter = Nothing
                       }
         } ! []
 

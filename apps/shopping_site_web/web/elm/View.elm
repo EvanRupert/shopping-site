@@ -76,7 +76,16 @@ stringToOrdering str =
 -- TODO: Implement function
 yearFilterMenu : Model -> List (Html Msg)
 yearFilterMenu model =
-    [ div [] []
+    [ h6 [] [ text "Year" ]
+    , div [ class "row" ]
+        [ div [ class "col-5" ]
+            [ label [ for "minimumYear" ] []
+            , input [ id "minimumYear" 
+                    , class "price-year-filter-input"
+                    , onInput --TODO: finish implementing this view
+                    ]
+            ]
+        ]
     ]
 
 
@@ -87,7 +96,7 @@ priceFilterMenu model =
         [ div [ class "col-5" ]
             [ label [ for "minimumPrice" ] []
             , input [ id "minimumPrice"
-                    , class "price-filter-input"
+                    , class "price-year-filter-input"
                     , onInput FilterPriceMinChange
                     ] []
             ]
@@ -97,7 +106,7 @@ priceFilterMenu model =
         , div [ class "col-5" ]
             [ label [ for "maximumPrice" ] []
             , input [ id "maximumPrice"
-                    , class "price-filter-input"
+                    , class "price-year-filter-input"
                     , onInput FilterPriceMaxChange 
                     ] []
             ]
