@@ -5,6 +5,8 @@ type Msg
     | ExpandFilters
     | FilterPriceMinChange String
     | FilterPriceMaxChange String
+    | FilterYearMinChange String
+    | FilterYearMaxChange String
     | OrderingChange Ordering
 
 type Ordering

@@ -82,8 +82,18 @@ yearFilterMenu model =
             [ label [ for "minimumYear" ] []
             , input [ id "minimumYear" 
                     , class "price-year-filter-input"
-                    , onInput --TODO: finish implementing this view
-                    ]
+                    , onInput FilterYearMinChange
+                    ] []
+            ]
+        , div [ class "col-2" ]
+            [ p [] [ text "to" ]
+            ]
+        , div [ class "col-5" ]
+            [ label [ for "maximumYear" ] []
+            , input [ id "maximumYear" 
+                    , class "price-year-filter-input"
+                    , onInput FilterYearMaxChange
+                    ] []
             ]
         ]
     ]

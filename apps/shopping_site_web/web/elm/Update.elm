@@ -21,8 +21,12 @@ update msg model =
                 { model | 
                     filtering = { oldFiltering | expandedFilterMenu = not old} 
                 } ! []
+ 
+        -- Find a way to condence this atrocity of a case statement into something better
+        -- maybe make reusable function for 
+        -- FilterPriceMinChange, FilterPriceMaxChange, FilterYearMinChange, and FilterYearMaxChange
         FilterPriceMinChange str -> 
-            let 
+            let
                 oldFiltering = model.filtering
                 oldPriceFilter = model.filtering.priceFilter
             in
@@ -52,6 +56,35 @@ update msg model =
                             |> filterItems |> (\model -> model ! [])
                     Err err -> { model | filtering = { oldFiltering | error = Just err } } ! []
 
+        FilterYearMinChange str ->
+            let
+                oldFiltering = model.filtering
+                oldYearFilter = model.filtering.yearFilter
+            in
+                case String.toInt str of
+                    Ok int ->
+                        if oldYearFilter == Nothing then
+                            { model | filtering = { oldFiltering | yearFilter = Just { minVal = Just int, maxVal = Nothing } } }
+                            |> filterItems |> (\model -> model ! [])
+                        else
+                            { model | filtering = { oldFiltering | yearFilter = Maybe.andThen (\pf -> Just { pf | minVal = Just int }) oldYearFilter } }
+                            |> filterItems |> (\model -> model ! [])
+                    Err err -> { model | filtering = { oldFiltering | error = Just err } } ! []
+
+        FilterYearMaxChange str ->
+            let
+                oldFiltering = model.filtering
+                oldYearFilter = model.filtering.yearFilter
+            in
+                case String.toInt str of
+                    Ok int -> 
+                        if oldYearFilter == Nothing then
+                            { model | filtering = { oldFiltering | yearFilter = Just { minVal = Nothing, maxVal = Just int } } }
+                            |> filterItems |> (\model -> model ! [])
+                        else
+                            { model | filtering = { oldFiltering | yearFilter = Maybe.andThen (\pf -> Just { pf | maxVal = Just int }) oldYearFilter } }
+                            |> filterItems |> (\model -> model ! [])
+                    Err err -> { model | filtering = { oldFiltering | error = Just err } } ! []
         OrderingChange ordering -> 
             let
                 oldFiltering = model.filtering
