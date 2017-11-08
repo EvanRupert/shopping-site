@@ -96,20 +96,12 @@ update msg model =
 
 filterItems : Model -> Model
 filterItems model = 
-    let 
-        items = model.allItems
-        search = model.filtering.searchText
-        ordering = model.filtering.ordering
-        priceFilterType = model.filtering.priceFilter
-        yearFilterType = model.filtering.yearFilter
-        
-        newItems = items
-                   |> searchFilter search
-                   |> priceFilter priceFilterType
-                   |> yearFilter yearFilterType
-                   |> orderingFilter ordering
-    in
-        { model | visibleItems = newItems }
+    model.allItems
+    |> searchFilter model.filtering.searchText
+    |> priceFilter model.filtering.priceFilter
+    |> yearFilter model.filtering.yearFilter
+    |> orderingFilter model.filtering.ordering
+    |> (\newItems -> { model | visibleItems = newItems })
 
 
 orderingFilter : Ordering -> List Item -> List Item
