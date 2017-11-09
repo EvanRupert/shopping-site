@@ -28,7 +28,7 @@ init flags =
         items = decodeJson flags.payload
     in
         { allItems = items
-        , visibleItems = items
+        , visibleItems = List.sortBy .name items
         , filtering = { searchText = ""
                       , expandedFilterMenu = False
                       , priceFilter = Nothing 

@@ -105,7 +105,10 @@ filterItems model =
 
 
 orderingFilter : Ordering -> List Item -> List Item
-orderingFilter ordering items = items --TODO: implement
+orderingFilter ordering items = 
+    case ordering of
+        Alphabetic -> List.sortBy .name items
+        ReverseAlphabetic -> List.reverse <| List.sortBy .name items
 
 
 priceFilter : Maybe PriceFilter -> List Item -> List Item
