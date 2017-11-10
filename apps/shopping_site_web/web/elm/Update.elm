@@ -115,13 +115,14 @@ priceFilter : Maybe PriceFilter -> List Item -> List Item
 priceFilter priceFilterType items = 
     case priceFilterType of
         Nothing -> items
-        Just priceFilter -> items
-                            |> (\itms -> case priceFilter.minVal of
-                                            Nothing -> itms
-                                            Just val -> List.filter (\item -> item.price > val) itms)
-                            |> (\itms -> case priceFilter.maxVal of
-                                            Nothing -> itms
-                                            Just val -> List.filter (\item -> item.price < val) itms)
+        Just priceFilter -> 
+            items
+            |> (\itms -> case priceFilter.minVal of
+                            Nothing -> itms
+                            Just val -> List.filter (\item -> item.price > val) itms)
+            |> (\itms -> case priceFilter.maxVal of
+                            Nothing -> itms
+                            Just val -> List.filter (\item -> item.price < val) itms)
 
 
 yearFilter : Maybe YearFilter -> List Item -> List Item
