@@ -58,35 +58,26 @@ update msg model =
                             |> filterItems |> (\model -> model ! [])
                     Err err -> { model | filtering = { oldFiltering | error = Just err } } ! []
 
-        FilterYearMinChange str ->
+        FilterDateMinChange str ->
             let
                 oldFiltering = model.filtering
-                olddateFilter = model.filtering.dateFilter
+                oldDateFilter = model.filtering.dateFilter
+                date = stringToMaybeDate str
             in
-                case String.toInt str of
-                    Ok int ->
-                        if olddateFilter == Nothing then
-                            { model | filtering = { oldFiltering | dateFilter = Just { minVal = Just int, maxVal = Nothing } } }
-                            |> filterItems |> (\model -> model ! [])
-                        else
-                            { model | filtering = { oldFiltering | dateFilter = Maybe.andThen (\pf -> Just { pf | minVal = Just int }) olddateFilter } }
-                            |> filterItems |> (\model -> model ! [])
-                    Err err -> { model | filtering = { oldFiltering | error = Just err } } ! []
+                { model | filtering = { oldFiltering | 
+                    dateFilter = Maybe.andThen (\df -> Just { df | minVal = date }) oldDateFilter } }
+                |> filterItems |> (\model -> model ! [])
 
-        FilterYearMaxChange str ->
+        FilterDateMaxChange str ->
             let
                 oldFiltering = model.filtering
-                olddateFilter = model.filtering.dateFilter
+                oldDateFilter = model.filtering.dateFilter
+                date = stringToMaybeDate str
             in
-                case String.toInt str of
-                    Ok int -> 
-                        if olddateFilter == Nothing then
-                            { model | filtering = { oldFiltering | dateFilter = Just { minVal = Nothing, maxVal = Just int } } }
-                            |> filterItems |> (\model -> model ! [])
-                        else
-                            { model | filtering = { oldFiltering | dateFilter = Maybe.andThen (\pf -> Just { pf | maxVal = Just int }) olddateFilter } }
-                            |> filterItems |> (\model -> model ! [])
-                    Err err -> { model | filtering = { oldFiltering | error = Just err } } ! []
+                { model | filtering = { oldFiltering | 
+                    dateFilter = Maybe.andThen (\df -> Just { df | maxVal = date }) oldDateFilter } }
+                |> filterItems |> (\model -> model ! [])
+
         OrderingChange ordering -> 
             let
                 oldFiltering = model.filtering
@@ -127,13 +118,25 @@ priceFilter priceFilterType items =
                             Just val -> List.filter (\item -> item.price < val) itms)
 
 
-compareDates : Date.Date -> Date.Date -> Order
-compareDates dt1 dt2 =
-    compare (Date.toTime dt1) (Date.toTime dt2)
+dateFilter : Maybe DateFilter -> List Item -> List Item
+dateFilter dateFilterType items =
+    case dateFilterType of
+        Nothing -> items
+        Just dateFilter ->
+            items
+            |> (\itms -> case dateFilter.minVal of
+                            Nothing -> itms
+                            Just val -> List.filter (\item -> (Date.toTime item.updatedAt) > (Date.toTime val)) itms)
+            |> (\itms -> case dateFilter.maxVal of
+                            Nothing -> itms
+                            Just val -> List.filter (\item -> (Date.toTime item.updatedAt) < (Date.toTime val)) itms)
 
 
-dateFilter : Maybe dateFilter -> List Item -> List Item
-dateFilter dateFilterType items = items --TODO: implement
+stringToMaybeDate : String -> Maybe Date.Date
+stringToMaybeDate str =
+    case Date.fromString str of
+        Ok date -> Just date
+        Err _ -> Nothing
 
 
 searchFilter : String -> List Item -> List Item

@@ -43,8 +43,11 @@ filtersMenu model =
         [ div [ class "row" ]
             [ div [ class "col-4" ] <| priceFilterMenu model
             , div [ class "col-4" ] <| orderingMenu model
-            , div [ class "col-4" ] <| yearFilterMenu model
+            , div [ class "col-4" ] <| dateFilterMenu model
             ]
+        , case model.filtering.error of
+            Just err -> p [ class "filtering-error" ] [ text err ]
+            Nothing -> p [] []
         , button [ type_ "button"
                  , class "btn btn-secondary btn-lg btn-block"
                  , onClick ExpandFilters
@@ -73,30 +76,56 @@ stringToOrdering str =
         _ -> Debug.crash "Ordering select list threw unexpected result"
 
 
--- TODO: Implement function
-yearFilterMenu : Model -> List (Html Msg)
-yearFilterMenu model =
-    [ h6 [] [ text "Year" ]
+dateFilterMenu : Model -> List (Html Msg)
+dateFilterMenu model =
+    [ h6 [] [ text "Date" ]
     , div [ class "row" ]
         [ div [ class "col-5" ]
-            [ label [ for "minimumYear" ] []
-            , input [ id "minimumYear" 
-                    , class "price-year-filter-input"
-                    , onInput FilterYearMinChange
+            [ label [ for "minimumDate" ] []
+            , input [ id "minimumDate "
+                    , class "price-date-filter-input"
+                    , type_ "date"
+                    , onInput FilterDateMinChange
                     ] []
             ]
         , div [ class "col-2" ]
             [ p [] [ text "to" ]
             ]
         , div [ class "col-5" ]
-            [ label [ for "maximumYear" ] []
-            , input [ id "maximumYear" 
-                    , class "price-year-filter-input"
-                    , onInput FilterYearMaxChange
+            [ label [ for "maximumDate" ] []
+            , input [ id "maximumDate"
+                    , class "price-date-filter-input"
+                    , type_ "date"
+                    , onInput FilterDateMaxChange
                     ] []
             ]
         ]
     ]
+
+
+-- dateFilterMenu : Model -> List (Html Msg)
+-- dateFilterMenu model =
+--     [ h6 [] [ text "Year" ]
+--     , div [ class "row" ]
+--         [ div [ class "col-5" ]
+--             [ label [ for "minimumYear" ] []
+--             , input [ id "minimumYear" 
+--                     , class "price-year-filter-input"
+--                     , onInput FilterYearMinChange
+--                     ] []
+--             ]
+--         , div [ class "col-2" ]
+--             [ p [] [ text "to" ]
+--             ]
+--         , div [ class "col-5" ]
+--             [ label [ for "maximumYear" ] []
+--             , input [ id "maximumYear" 
+--                     , class "price-year-filter-input"
+--                     , onInput FilterYearMaxChange
+--                     ] []
+--             ]
+--         ]
+--     ]
 
 
 priceFilterMenu : Model -> List (Html Msg)
@@ -106,7 +135,7 @@ priceFilterMenu model =
         [ div [ class "col-5" ]
             [ label [ for "minimumPrice" ] []
             , input [ id "minimumPrice"
-                    , class "price-year-filter-input"
+                    , class "price-date-filter-input"
                     , onInput FilterPriceMinChange
                     ] []
             ]
@@ -116,7 +145,7 @@ priceFilterMenu model =
         , div [ class "col-5" ]
             [ label [ for "maximumPrice" ] []
             , input [ id "maximumPrice"
-                    , class "price-year-filter-input"
+                    , class "price-date-filter-input"
                     , onInput FilterPriceMaxChange 
                     ] []
             ]

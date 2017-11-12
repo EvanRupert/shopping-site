@@ -2,7 +2,7 @@
 -- TODO: Implement ordering from filters box
 -- TODO: Implement year added filtering
 
---TODO IMPORTANT: change year fields from int into date so that the dateFiltering can be implemented
+-- FIXME: dates not working
 
 
 module ItemList exposing (..)
@@ -49,10 +49,6 @@ defaultItem = { name = "Invalid"
               , imageUrl = "Invalid"
               , updatedAt = defaultDate
               }
-
--- January 1 2017 00:00:00
-defaultDate : Date.Date 
-defaultDate = Date.fromTime 1483246800000
 
 
 itemDecoder : Json.Decoder Item
