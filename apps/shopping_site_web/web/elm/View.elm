@@ -139,6 +139,7 @@ viewItem item =
                 [ h4 [ class "card-title" ] [ text item.name ]
                 , p [ class "card-text" ] [ text item.description ]
                 , p [] [ item.price |> toString |> text ]
+                , p [] [ item.updatedAt |> toString |> text ]
                 ]
             ]
     ]

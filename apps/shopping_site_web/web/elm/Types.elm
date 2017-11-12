@@ -1,5 +1,8 @@
 module Types exposing (..)
 
+import Date
+
+
 type Msg
     = SearchChange String
     | ExpandFilters
@@ -19,6 +22,7 @@ type alias Item = { name : String
                   , description : String
                   , price : Float
                   , imageUrl : String
+                  , updatedAt : Date.Date
                   }
 
 type alias Model = { allItems : List Item
@@ -31,13 +35,13 @@ type alias Filter = { searchText : String
                     , priceFilter : Maybe PriceFilter
                     , error : Maybe String
                     , ordering : Ordering
-                    , yearFilter : Maybe YearFilter
+                    , dateFilter : Maybe DateFilter
                     }
 
 type alias PriceFilter = { minVal : Maybe Float
                          , maxVal : Maybe Float
                          }
 
-type alias YearFilter = { minVal : Maybe Int
+type alias DateFilter = { minVal : Maybe Int
                         , maxVal : Maybe Int
                         }

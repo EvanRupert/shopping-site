@@ -2,10 +2,13 @@
 -- TODO: Implement ordering from filters box
 -- TODO: Implement year added filtering
 
+--TODO IMPORTANT: change year fields from int into date so that the dateFiltering can be implemented
+
 
 module ItemList exposing (..)
 
 import Json.Decode as Json
+import Date
 
 import Html exposing ( programWithFlags )
 
@@ -34,7 +37,7 @@ init flags =
                       , priceFilter = Nothing 
                       , error = Nothing
                       , ordering = Alphabetic
-                      , yearFilter = Nothing
+                      , dateFilter = Nothing
                       }
         } ! []
 
@@ -44,21 +47,31 @@ defaultItem = { name = "Invalid"
               , description = "Invalid"
               , price = 0
               , imageUrl = "Invalid"
+              , updatedAt = defaultDate
               }
+
+-- January 1 2017 00:00:00
+defaultDate : Date.Date 
+defaultDate = Date.fromTime 1483246800000
 
 
 itemDecoder : Json.Decoder Item
 itemDecoder = 
-    Json.map4 Item
+    Json.map5 Item
         (Json.at ["name"] Json.string)
         (Json.at ["description"] Json.string)
         (Json.at ["price"] Json.float)
         (Json.at ["image_url"] Json.string)
+        (Json.at ["updated_at"] decodeDate)
+
+
+decodeDate : Json.Decoder Date.Date
+decodeDate =
+    Json.map (\x -> case Date.fromString x of
+                        Ok value -> value
+                        Err _ -> defaultDate) Json.string
 
 
 decodeJson : String -> List Item
-decodeJson str = 
-    let
-        result = Json.decodeString (Json.list itemDecoder) str
-    in
-        Result.withDefault [defaultItem] result
+decodeJson = 
+    Json.decodeString (Json.list itemDecoder) >> Result.withDefault [defaultItem]

@@ -1,5 +1,7 @@
 module Update exposing ( update )
 
+import Date
+
 import Types exposing (..)
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -59,30 +61,30 @@ update msg model =
         FilterYearMinChange str ->
             let
                 oldFiltering = model.filtering
-                oldYearFilter = model.filtering.yearFilter
+                olddateFilter = model.filtering.dateFilter
             in
                 case String.toInt str of
                     Ok int ->
-                        if oldYearFilter == Nothing then
-                            { model | filtering = { oldFiltering | yearFilter = Just { minVal = Just int, maxVal = Nothing } } }
+                        if olddateFilter == Nothing then
+                            { model | filtering = { oldFiltering | dateFilter = Just { minVal = Just int, maxVal = Nothing } } }
                             |> filterItems |> (\model -> model ! [])
                         else
-                            { model | filtering = { oldFiltering | yearFilter = Maybe.andThen (\pf -> Just { pf | minVal = Just int }) oldYearFilter } }
+                            { model | filtering = { oldFiltering | dateFilter = Maybe.andThen (\pf -> Just { pf | minVal = Just int }) olddateFilter } }
                             |> filterItems |> (\model -> model ! [])
                     Err err -> { model | filtering = { oldFiltering | error = Just err } } ! []
 
         FilterYearMaxChange str ->
             let
                 oldFiltering = model.filtering
-                oldYearFilter = model.filtering.yearFilter
+                olddateFilter = model.filtering.dateFilter
             in
                 case String.toInt str of
                     Ok int -> 
-                        if oldYearFilter == Nothing then
-                            { model | filtering = { oldFiltering | yearFilter = Just { minVal = Nothing, maxVal = Just int } } }
+                        if olddateFilter == Nothing then
+                            { model | filtering = { oldFiltering | dateFilter = Just { minVal = Nothing, maxVal = Just int } } }
                             |> filterItems |> (\model -> model ! [])
                         else
-                            { model | filtering = { oldFiltering | yearFilter = Maybe.andThen (\pf -> Just { pf | maxVal = Just int }) oldYearFilter } }
+                            { model | filtering = { oldFiltering | dateFilter = Maybe.andThen (\pf -> Just { pf | maxVal = Just int }) olddateFilter } }
                             |> filterItems |> (\model -> model ! [])
                     Err err -> { model | filtering = { oldFiltering | error = Just err } } ! []
         OrderingChange ordering -> 
@@ -99,7 +101,7 @@ filterItems model =
     model.allItems
     |> searchFilter model.filtering.searchText
     |> priceFilter model.filtering.priceFilter
-    |> yearFilter model.filtering.yearFilter
+    |> dateFilter model.filtering.dateFilter
     |> orderingFilter model.filtering.ordering
     |> (\newItems -> { model | visibleItems = newItems })
 
@@ -125,8 +127,13 @@ priceFilter priceFilterType items =
                             Just val -> List.filter (\item -> item.price < val) itms)
 
 
-yearFilter : Maybe YearFilter -> List Item -> List Item
-yearFilter yearFilterType items = items --TODO: implement
+compareDates : Date.Date -> Date.Date -> Order
+compareDates dt1 dt2 =
+    compare (Date.toTime dt1) (Date.toTime dt2)
+
+
+dateFilter : Maybe dateFilter -> List Item -> List Item
+dateFilter dateFilterType items = items --TODO: implement
 
 
 searchFilter : String -> List Item -> List Item
