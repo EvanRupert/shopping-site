@@ -15,6 +15,7 @@ update msg model =
                 { model | visibleItems = searchFilter search items
                         , filtering = { oldFiltering | searchText = search } 
                 } |> filterItems |> (\model -> model ! [])
+        
         ExpandFilters ->
             let
                 old = model.filtering.expandedFilterMenu
@@ -36,12 +37,13 @@ update msg model =
                     Ok flt ->
                         if oldPriceFilter == Nothing then
                             { model | filtering = { oldFiltering | priceFilter = Just { minVal = Just flt, maxVal = Nothing } } }
-                            |> filterItems |> (\model -> model ! [])
+                            |> removeError |> filterItems |> (\model -> model ! [])
                         else
                             { model | filtering = { oldFiltering | priceFilter = Maybe.andThen (\pf -> Just { pf | minVal = Just flt }) oldPriceFilter } }
-                            |> filterItems |> (\model -> model ! [])
+                            |> removeError |> filterItems |> (\model -> model ! [])
                     Err err ->
-                        { model | filtering = { oldFiltering | error = Just err } } ! []
+                        { model | filtering = { oldFiltering | priceFilter = Maybe.andThen (\pf -> Just { pf | minVal = Nothing }) oldPriceFilter } } 
+                        |> filterItems |> (\model -> model ! [])
 
         FilterPriceMaxChange str ->
             let
@@ -52,11 +54,12 @@ update msg model =
                     Ok flt ->
                         if oldPriceFilter == Nothing then
                             { model | filtering = { oldFiltering | priceFilter = Just { minVal = Nothing, maxVal = Just flt } } }
-                            |> filterItems |> (\model -> model ! [])
+                            |> removeError |> filterItems |> (\model -> model ! [])
                         else
                             { model | filtering = { oldFiltering | priceFilter = Maybe.andThen (\pf -> Just { pf | maxVal = Just flt }) oldPriceFilter } }
-                            |> filterItems |> (\model -> model ! [])
-                    Err err -> { model | filtering = { oldFiltering | error = Just err } } ! []
+                            |> removeError |> filterItems |> (\model -> model ! [])
+                    Err err -> { model | filtering = { oldFiltering | priceFilter = Maybe.andThen (\pf -> Just { pf | maxVal = Nothing }) oldPriceFilter } } 
+                               |> filterItems |> (\model -> model ! []) 
 
         FilterDateMinChange str ->
             let
@@ -64,9 +67,12 @@ update msg model =
                 oldDateFilter = model.filtering.dateFilter
                 date = stringToMaybeDate str
             in
-                { model | filtering = { oldFiltering | 
-                    dateFilter = Maybe.andThen (\df -> Just { df | minVal = date }) oldDateFilter } }
-                |> filterItems |> (\model -> model ! [])
+                if oldDateFilter == Nothing then 
+                    { model | filtering = { oldFiltering | dateFilter = Just { minVal = date, maxVal = Nothing } } } 
+                    |> filterItems |> (\model -> model ! [])
+                else 
+                    { model | filtering = { oldFiltering | dateFilter = Maybe.andThen (\pf -> Just { pf | minVal = date }) oldDateFilter } }
+                    |> filterItems |> (\model -> model ! [])
 
         FilterDateMaxChange str ->
             let
@@ -74,9 +80,12 @@ update msg model =
                 oldDateFilter = model.filtering.dateFilter
                 date = stringToMaybeDate str
             in
-                { model | filtering = { oldFiltering | 
-                    dateFilter = Maybe.andThen (\df -> Just { df | maxVal = date }) oldDateFilter } }
-                |> filterItems |> (\model -> model ! [])
+                if oldDateFilter == Nothing then
+                    { model | filtering = { oldFiltering | dateFilter = Just { minVal = Nothing, maxVal = date} } }
+                    |> filterItems |> (\model -> model ! [])
+                else
+                    { model | filtering = { oldFiltering | dateFilter = Maybe.andThen (\pf -> Just { pf | maxVal = date }) oldDateFilter } }
+                    |> filterItems |> (\model -> model ! [])
 
         OrderingChange ordering -> 
             let
@@ -88,7 +97,7 @@ update msg model =
 
 
 filterItems : Model -> Model
-filterItems model = 
+filterItems model =
     model.allItems
     |> searchFilter model.filtering.searchText
     |> priceFilter model.filtering.priceFilter
@@ -112,15 +121,15 @@ priceFilter priceFilterType items =
             items
             |> (\itms -> case priceFilter.minVal of
                             Nothing -> itms
-                            Just val -> List.filter (\item -> item.price > val) itms)
+                            Just val -> List.filter (\item -> item.price >= val) itms)
             |> (\itms -> case priceFilter.maxVal of
                             Nothing -> itms
-                            Just val -> List.filter (\item -> item.price < val) itms)
+                            Just val -> List.filter (\item -> item.price <= val) itms)
 
 
 dateFilter : Maybe DateFilter -> List Item -> List Item
 dateFilter dateFilterType items =
-    case dateFilterType of
+    case Debug.log "Date Filter" dateFilterType of
         Nothing -> items
         Just dateFilter ->
             items
@@ -144,3 +153,12 @@ searchFilter str =
     List.filter (\i -> String.contains 
                         (String.toUpper str) 
                         (String.toUpper i.name))
+
+
+removeError : Model -> Model
+removeError model =
+    let
+        oldFiltering = model.filtering
+    in
+        { model | filtering = { oldFiltering | error = Nothing } } 
+
