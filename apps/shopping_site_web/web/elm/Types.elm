@@ -15,6 +15,10 @@ type Msg
 type Ordering
     = Alphabetic
     | ReverseAlphabetic
+    | PriceHighest
+    | PriceLowest
+    | DateRecent
+    | DateNotRecent
 
 type alias Flags = 
     { payload : String }

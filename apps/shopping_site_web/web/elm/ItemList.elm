@@ -1,9 +1,7 @@
--- TODO: Implement price filtering from filters box
--- TODO: Implement ordering from filters box
--- TODO: Implement year added filtering
+-- TODO: implement owner authentication
+-- TODO: create admin page for adding items
 
--- FIXME: dates not working
-
+-- TODO: implement price and date ordering
 
 module ItemList exposing (..)
 

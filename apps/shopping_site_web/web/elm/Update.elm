@@ -109,8 +109,12 @@ filterItems model =
 orderingFilter : Ordering -> List Item -> List Item
 orderingFilter ordering items = 
     case ordering of
-        Alphabetic -> List.sortBy .name items
-        ReverseAlphabetic -> List.reverse <| List.sortBy .name items
+        Alphabetic -> items |> List.sortBy .name
+        ReverseAlphabetic -> items |> List.sortBy .name |> List.reverse
+        PriceHighest -> items |> List.sortBy .price |> List.reverse
+        PriceLowest -> items |> List.sortBy .price
+        DateRecent -> items |> List.sortBy (.updatedAt >> Date.toTime) |> List.reverse
+        DateNotRecent -> items |> List.sortBy (.updatedAt >> Date.toTime)
 
 
 priceFilter : Maybe PriceFilter -> List Item -> List Item

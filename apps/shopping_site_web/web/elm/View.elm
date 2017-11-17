@@ -63,7 +63,11 @@ orderingMenu model =
                   , onInput ( stringToOrdering >> OrderingChange)
                   ]
         [ option [] [ text "Alphabetic" ]
-        , option [] [ text "Reverse Alphabetic" ] --TODO: add additional orderings
+        , option [] [ text "Reverse Alphabetic" ]
+        , option [] [ text "Price (Highest)" ]
+        , option [] [ text "Price (Lowest)" ]
+        , option [] [ text "Date (Most Recent)" ]
+        , option [] [ text "Date (Least Recent)" ]
         ]
     ]
 
@@ -72,7 +76,11 @@ stringToOrdering : String -> Ordering
 stringToOrdering str = 
     case str of
         "Alphabetic" -> Alphabetic
-        "Reverse Alphabetic" -> ReverseAlphabetic --TODO: add additional orderings
+        "Reverse Alphabetic" -> ReverseAlphabetic
+        "Price (Highest)" -> PriceHighest
+        "Price (Lowest)" -> PriceLowest
+        "Date (Most Recent)" -> DateRecent
+        "Date (Least Recent" -> DateNotRecent
         _ -> Debug.crash "Ordering select list threw unexpected result"
 
 
