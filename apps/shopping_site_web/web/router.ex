@@ -28,7 +28,7 @@ defmodule ShoppingSiteWeb.Router do
     post "/search", ItemController, :search
 
     get    "/login",  SessionController, :new
-    get    "/login",  SessionController, :create
+    post    "/login",  SessionController, :create
     delete "/logout", SessionController, :delete
   end
 
