@@ -1,0 +1,13 @@
+<h1>Admin Page</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <h3>Add Items</h3>
+            <%# add form for adding items %>
+        </div>
+        <div class="col-6">
+            <h3>Remove Items</h3>
+            <%# add list of items with X's to remove them %>
+        </div>
+    </div>
+</div>

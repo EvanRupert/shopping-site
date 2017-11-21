@@ -10,14 +10,12 @@ defmodule ShoppingSiteWeb.SessionController do
         case ShoppingSite.UserQueries.login(session_params["username"], session_params["password"]) do
             {:ok, user} ->
                 conn
-                |> put_session(:current_user, user.username)
-                |> put_flash(:info, "Logged in")
-                |> redirect(to: "/")
+                |> put_session(:current_user, user.id)
+                |> redirect(to: "/admin")
             :error ->
                 conn
                 |> put_flash(:info, "Wrong username or password")
                 |> render("login.html")
         end
     end
-
 end

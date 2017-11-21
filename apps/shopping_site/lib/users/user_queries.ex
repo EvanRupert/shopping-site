@@ -9,14 +9,19 @@ defmodule ShoppingSite.UserQueries do
             Users
             |> where([u], u.username == ^username and u.password == ^password)
             |> select([u], %{ username: u.username,
-                          id: u.id
-                        })
+                              id: u.id
+                            })
             |> Repo.one
         if user do
             {:ok, user}
         else
             :error
         end
+    end
+
+
+    def get_user(id) do
+        Repo.get(Users, id)
     end
 
 
