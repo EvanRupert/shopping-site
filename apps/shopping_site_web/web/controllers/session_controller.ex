@@ -14,8 +14,13 @@ defmodule ShoppingSiteWeb.SessionController do
                 |> redirect(to: "/admin")
             :error ->
                 conn
-                |> put_flash(:info, "Wrong username or password")
                 |> render("login.html")
         end
+    end
+
+    def delete(conn, _) do
+        conn
+        |> delete_session(:current_user)
+        |> redirect(to: "/")
     end
 end

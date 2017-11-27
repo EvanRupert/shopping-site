@@ -10,7 +10,7 @@ defmodule ShoppingSiteWeb.AdminController do
             changeset = Items.changeset(%Items{})
             render conn, "admin.html", items: items, changeset: changeset
         else
-            redirect(conn, "/login")
+            conn |> redirect(to: "/login")
         end
     end
 end
