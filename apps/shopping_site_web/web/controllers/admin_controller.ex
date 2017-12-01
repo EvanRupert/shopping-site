@@ -13,4 +13,21 @@ defmodule ShoppingSiteWeb.AdminController do
             conn |> redirect(to: "/login")
         end
     end
+
+
+    def create(conn, %{"item" => %{ "description" => des, "name" => name,
+                                    "image" => upload, "price" => price }}) do
+        
+        File.rename upload.path, "/images/#{upload.filename}"
+        p = price |> Float.parse() |> Decimal.new()
+        ItemQueries.insert_item name, des, p, upload.filename
+
+        render conn, "admin.html"
+    end
+
+
+    def remove(conn, _params) do
+        #TODO: implement
+        render conn, "admin.html" 
+    end
 end
