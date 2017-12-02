@@ -23,7 +23,7 @@ defmodule ShoppingSiteWeb.Router do
   scope "/", ShoppingSiteWeb do
     pipe_through :browser # Use the default browser stack
 
-    get "/", ItemController, :list
+    get "/", PageController, :index
     get "/items", ItemController, :list
     post "/search", ItemController, :search
 
