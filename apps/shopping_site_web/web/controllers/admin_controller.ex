@@ -1,5 +1,6 @@
 defmodule ShoppingSiteWeb.AdminController do
     use ShoppingSiteWeb.Web, :controller
+    alias Decimal, as: D
 
     alias ShoppingSite.{ItemQueries, Items}
 
@@ -17,12 +18,12 @@ defmodule ShoppingSiteWeb.AdminController do
 
     def create(conn, %{"item" => %{ "description" => des, "name" => name,
                                     "image" => upload, "price" => price }}) do
-        
-        File.rename upload.path, "/images/#{upload.filename}"
-        p = price |> Float.parse() |> Decimal.new()
-        ItemQueries.insert_item name, des, p, upload.filename
 
-        render conn, "admin.html"
+        # file uploading
+
+        ItemQueries.insert_item name, des, D.new(price), upload.filename
+
+        redirect(conn, to: "/admin")
     end
 
 

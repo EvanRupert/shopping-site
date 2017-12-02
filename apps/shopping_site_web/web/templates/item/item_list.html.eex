@@ -1,2 +1,4 @@
 <div id="elm_item_list"></div>
-<p hidden id="elm_item_list_transfer" style="visibility:hidden;"><%= encode_items static_path(@conn, "/images/"), @items %></p>
+<p hidden id="elm_item_list_transfer" style="visibility:hidden;">
+  <%= encode_items "/images", @items %>
+</p>
