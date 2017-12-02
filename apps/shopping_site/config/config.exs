@@ -37,4 +37,9 @@ config :shopping_site, ShoppingSite.Repo,
     password: "postgres"
 
 
+config :cipher, keyphrase: "longlonglonglongkeyphrase", #strengthen this later
+                ivphrase: "longlonglonglongivphrase", #strengthen this later
+                magic_token: "magictoken" # strengthen this later
+
+
 config :shopping_site, ecto_repos: [ShoppingSite.Repo]

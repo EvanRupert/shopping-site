@@ -11,7 +11,5 @@ defmodule ShoppingSiteWeb.ItemController do
         items = ShoppingSite.ItemQueries.search_items query
         render conn, "item_list.html", items: items
     end
-    
+
 end
-
-
