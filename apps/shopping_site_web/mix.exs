@@ -39,6 +39,7 @@ defmodule ShoppingSiteWeb.Mixfile do
      {:gettext, "~> 0.11"},
      {:cowboy, "~> 1.0"},
      {:poison, "~> 2.0"},
-     {:decimal, "~> 1.4"}]
+     {:decimal, "~> 1.4"},
+     {:arc, "~> 0.8.0"}]
   end
 end

@@ -1,9 +1,12 @@
-# TODO: Add search bar
-# TODO: Attempt to enable hot reloading for search function
-
 # TODO: improve search to also search description
 # TODO: add tokanization to search to search words individually
 
+# TODO: add someway to remove cookies after a certain amount of time
+
+# TODO: implement file validation for Arc uploading
+
+# TODO: implement item removal feature
+# FIXME: fix the admin price field to accept floating point
 
 defmodule ShoppingSiteWeb.Router do
   use ShoppingSiteWeb.Web, :router
@@ -23,7 +26,7 @@ defmodule ShoppingSiteWeb.Router do
   scope "/", ShoppingSiteWeb do
     pipe_through :browser # Use the default browser stack
 
-    get "/", ItemController, :list
+    get "/", PageController, :index
     get "/items", ItemController, :list
     post "/search", ItemController, :search
 

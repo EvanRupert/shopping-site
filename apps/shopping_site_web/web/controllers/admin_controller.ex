@@ -21,6 +21,8 @@ defmodule ShoppingSiteWeb.AdminController do
 
         # file uploading
 
+        ShoppingSiteWeb.ItemPicture.store(upload)
+
         ItemQueries.insert_item name, des, D.new(price), upload.filename
 
         redirect(conn, to: "/admin")
