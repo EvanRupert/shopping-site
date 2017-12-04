@@ -3,6 +3,8 @@
 
 # TODO: add someway to remove cookies after a certain amount of time
 
+# TODO: implement file validation for Arc uploading
+
 # TODO: implement item removal feature
 # FIXME: fix the admin price field to accept floating point
 
