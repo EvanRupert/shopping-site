@@ -6,7 +6,9 @@
 # TODO: implement file validation for Arc uploading
 
 # TODO: implement item removal feature
-# FIXME: fix the admin price field to accept floating point
+# TODO: implement input validation for the forms using the changeset feature
+
+# TODO: test basic uploading feature again !IMPORTANT
 
 defmodule ShoppingSiteWeb.Router do
   use ShoppingSiteWeb.Web, :router

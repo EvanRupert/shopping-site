@@ -28,6 +28,16 @@ defmodule ShoppingSiteWeb.AdminController do
         redirect(conn, to: "/admin")
     end
 
+    
+    def create(conn, %{"item" => %{ "description" => des, "name" => name, 
+                                    "price" => price}}) do
+
+        ItemQueries.insert_item name, des, D.new(price),
+                                Application.get_env(:shopping_site_web, :placeholder_url)
+
+        redirect(conn, to: "/admin")
+    end
+
 
     def remove(conn, _params) do
         #TODO: implement
