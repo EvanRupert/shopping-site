@@ -7,3 +7,14 @@
 .price-date-filter-input {
     width: 100%;
 }
+
+
+.edit-container {
+    height: 820px;
+    overflow: scroll;
+}
+
+
+.edit-search-bar {
+    width: 50%;
+}

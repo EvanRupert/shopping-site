@@ -1,0 +1,9 @@
+<div class="card">
+  <img src="images/<%= @item.image_url %>" class="card-img-top">
+  <div class="card-body">
+    <h4 class="card-title"><%= @item.name %></h4>
+    <p class="card-text"><%= @item.description %></p>
+    <p><%= to_string @item.price %></p>
+    <p><%= to_string @item.updated_at %></p>
+  </div>
+</div>

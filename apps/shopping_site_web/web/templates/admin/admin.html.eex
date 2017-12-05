@@ -28,8 +28,17 @@
             <% end %>
         </div>
         <div class="col-6">
-            <h3>Remove Items</h3>
-            <%# add list of items with X's to remove them %>
+            <h3>Edit Items</h3>
+            <%= form_for @conn, admin_path(@conn, :search), [as: :search], fn f -> %>
+                <%= text_input f, :query, class: "form-control", 
+                               placeholder: "search ..." %>
+            <% end %>
+            <div class="edit-container">
+                <%= for item <- @items do %>
+                    <%= render ShoppingSiteWeb.AdminView, 
+                            "remove_item_card.html", item: item %>
+                <% end %>
+            </div>
         </div>
     </div>
 </div>

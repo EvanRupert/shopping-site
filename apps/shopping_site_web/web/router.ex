@@ -8,7 +8,9 @@
 # TODO: implement item removal feature
 # TODO: implement input validation for the forms using the changeset feature
 
-# TODO: test basic uploading feature again !IMPORTANT
+# TODO: test error conditions for item adding feature
+
+# TODO: cleanup item cards on /items page
 
 defmodule ShoppingSiteWeb.Router do
   use ShoppingSiteWeb.Web, :router
@@ -34,7 +36,9 @@ defmodule ShoppingSiteWeb.Router do
 
     get "/admin", AdminController, :admin
     post "/create", AdminController, :create
-    post "/remove", AdminController, :remove
+    post "/edit_search", AdminController, :search
+    post "/edit", AdminController, :edit
+
 
     get "/login", SessionController, :new
     post "/login", SessionController, :create

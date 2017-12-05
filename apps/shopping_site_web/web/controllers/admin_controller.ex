@@ -39,7 +39,13 @@ defmodule ShoppingSiteWeb.AdminController do
     end
 
 
-    def remove(conn, _params) do
+    def search(conn, %{"search" => %{"query" => query}}) do
+        items = ShoppingSite.ItemQueries.search_items query
+        render conn, "admin.html", items: items
+    end
+
+
+    def edit(conn, _params) do
         #TODO: implement
         render conn, "admin.html" 
     end

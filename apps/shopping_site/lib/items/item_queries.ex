@@ -5,7 +5,8 @@ defmodule ShoppingSite.ItemQueries do
 
     def get_all_items do
         Items
-        |> select([c], %{ name: c.name, 
+        |> select([c], %{ id: c.id,
+                          name: c.name, 
                           description: c.description, 
                           price: c.price, 
                           image_url: c.image_url, 
