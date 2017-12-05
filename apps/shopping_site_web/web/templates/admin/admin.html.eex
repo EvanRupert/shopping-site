@@ -36,7 +36,7 @@
             <div class="edit-container">
                 <%= for item <- @items do %>
                     <%= render ShoppingSiteWeb.AdminView, 
-                            "remove_item_card.html", item: item %>
+                            "remove_item_card.html", item: item, conn: @conn %>
                 <% end %>
             </div>
         </div>

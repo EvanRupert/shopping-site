@@ -35,7 +35,7 @@ defmodule ShoppingSiteWeb.AdminController do
         ItemQueries.insert_item name, des, D.new(price),
                                 Application.get_env(:shopping_site_web, :placeholder_url)
 
-        redirect(conn, to: "/admin")
+        redirect conn, to: "/admin"
     end
 
 
@@ -45,8 +45,23 @@ defmodule ShoppingSiteWeb.AdminController do
     end
 
 
-    def edit(conn, _params) do
-        #TODO: implement
-        render conn, "admin.html" 
+    def edit(conn, %{"submit" => "edit", "item" => item}) do
+        IO.puts "Entering edit"
+        
+        ShoppingSite.ItemQueries.update_item item
+        |> IO.inspect
+        
+        redirect conn, to: "/admin"
+    end
+
+    # FIXME: this is broken, update dosen't do anything and delete is throwing 'no matching clause'
+    def edit(conn, %{"submit" => "delete", "item" => %{id: id}}) do
+        IO.puts "Entering delete"
+
+        {num, _} = Integer.parse id
+        ShoppingSite.ItemQueries.delete_by_id num
+        |> IO.inspect
+
+        redirect conn, to: "/admin"
     end
 end

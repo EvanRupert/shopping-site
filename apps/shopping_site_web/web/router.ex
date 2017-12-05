@@ -39,7 +39,6 @@ defmodule ShoppingSiteWeb.Router do
     post "/edit_search", AdminController, :search
     post "/edit", AdminController, :edit
 
-
     get "/login", SessionController, :new
     post "/login", SessionController, :create
     get "/logout", SessionController, :delete

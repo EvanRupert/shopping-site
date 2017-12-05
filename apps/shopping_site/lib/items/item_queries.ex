@@ -55,6 +55,12 @@ defmodule ShoppingSite.ItemQueries do
     end
 
 
+    def update_item(item) do
+        Items.changeset(%Items{}, item)
+        |> Repo.update
+    end
+
+
     def update_image_url(id, url) do
         %Items{id: id}
         |> Ecto.Changeset.cast(%{image_url: url}, [:id, :image_url])

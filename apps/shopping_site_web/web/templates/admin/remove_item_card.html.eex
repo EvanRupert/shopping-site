@@ -1,9 +1,16 @@
 <div class="card">
   <img src="images/<%= @item.image_url %>" class="card-img-top">
   <div class="card-body">
-    <h4 class="card-title"><%= @item.name %></h4>
-    <p class="card-text"><%= @item.description %></p>
-    <p><%= to_string @item.price %></p>
-    <p><%= to_string @item.updated_at %></p>
+    <%= form_for @conn, admin_path(@conn, :edit), [as: :item], fn f -> %>
+      <div class="form-group">
+        <%= hidden_input f, :id, value: @item.id %>
+        <%= text_input f, :name, class: "form-control", value: @item.name %>
+        <%= number_input f, :price, class: "form-control", step: "any", 
+                         value: decimal_to_float(@item.price) %>
+        <%= textarea f, :description, class: "form-control", value: @item.description %>
+        <%= submit "Save", class: "btn btn-success", name: "submit", value: "edit" %>
+        <%= submit "Delete", class: "btn btn-danger", name: "submit", value: "delete" %>
+      </div>
+    <% end %>
   </div>
 </div>
