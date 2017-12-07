@@ -5,4 +5,9 @@ defmodule ShoppingSiteWeb.AdminView do
         Decimal.to_float d
     end
     
+
+    def sort_items(items) do
+        items |> Enum.sort_by(fn x -> x.name end)
+    end
+
 end

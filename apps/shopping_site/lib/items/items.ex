@@ -15,7 +15,7 @@ defmodule ShoppingSite.Items do
     def changeset(item, params \\ %{}) do
         item
         |> cast(params, [:name, :description, :price, :image_url])
-        |> validate_required([:name, :price, :image_url])
+        |> validate_required([:name, :price])
         |> validate_format(:image_url, ~r/.+\.jpg/)
         |> validate_field_lengths()
     end

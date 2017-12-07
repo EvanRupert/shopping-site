@@ -11,29 +11,28 @@ defmodule ShoppingSiteWeb.AdminController do
             changeset = Items.changeset(%Items{})
             render conn, "admin.html", items: items, changeset: changeset
         else
-            conn |> redirect(to: "/login")
+            redirect conn, to: "/login"
         end
     end
 
 
     def create(conn, %{"item" => %{ "description" => des, "name" => name,
                                     "image" => upload, "price" => price }}) do
-
-        # file uploading
-
+        
         ShoppingSiteWeb.ItemPicture.store(upload)
 
-        ItemQueries.insert_item name, des, D.new(price), upload.filename
+        {p, _} = Float.parse price
+        ItemQueries.insert_item name, des, p, upload.filename
 
-        redirect(conn, to: "/admin")
+        redirect conn, to: "/admin"
     end
 
-    
+
     def create(conn, %{"item" => %{ "description" => des, "name" => name, 
                                     "price" => price}}) do
 
-        ItemQueries.insert_item name, des, D.new(price),
-                                Application.get_env(:shopping_site_web, :placeholder_url)
+        {p, _} = Float.parse price
+        ItemQueries.insert_item name, des, p
 
         redirect conn, to: "/admin"
     end
@@ -45,18 +44,23 @@ defmodule ShoppingSiteWeb.AdminController do
     end
 
 
-    def edit(conn, %{"submit" => "edit", "item" => item}) do
-        IO.puts "Entering edit"
+    def edit(conn, %{"submit" => "edit", 
+                     "item" => %{ "id" => id, "name" => name, 
+                     "description" => des, "price" => price}}) do
         
+        {num_id, _} = Integer.parse(id)
+        {num, _} = Float.parse(price)
+
+        item = %{ id: num_id, name: name, description: des, price: D.new(num)}
+
         ShoppingSite.ItemQueries.update_item item
-        |> IO.inspect
         
         redirect conn, to: "/admin"
     end
 
+
     # FIXME: this is broken, update dosen't do anything and delete is throwing 'no matching clause'
-    def edit(conn, %{"submit" => "delete", "item" => %{id: id}}) do
-        IO.puts "Entering delete"
+    def edit(conn, %{"submit" => "delete", "item" => %{ "id" => id }}) do
 
         {num, _} = Integer.parse id
         ShoppingSite.ItemQueries.delete_by_id num

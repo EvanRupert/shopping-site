@@ -37,8 +37,17 @@ defmodule ShoppingSite.ItemQueries do
     end
 
 
+    def insert_item(name, description, price) do
+        url = Application.get_env :shopping_site_web, :placeholder_url
+        
+        %Items{ name: name, description: description, price: price, image_url: url}
+        |> Repo.insert
+    end
+
+
     def insert_item(name, description, price, image_url) do
-        Repo.insert!(%Items{ name: name, description: description, price: price, image_url: image_url})
+        %Items{ name: name, description: description, price: price, image_url: image_url}
+        |> Repo.insert
     end
 
 
@@ -56,7 +65,10 @@ defmodule ShoppingSite.ItemQueries do
 
 
     def update_item(item) do
-        Items.changeset(%Items{}, item)
+        IO.puts "Updating Item Debug:"
+
+        Items.changeset(%Items{ id: item.id }, item)
+        |> IO.inspect
         |> Repo.update
     end
 
