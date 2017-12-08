@@ -19,10 +19,16 @@ defmodule ShoppingSiteWeb.AdminController do
     def create(conn, %{"item" => %{ "description" => des, "name" => name,
                                     "image" => upload, "price" => price }}) do
         
+        {p, _} = Float.parse price
+        { :ok, %{ id: id } } = ItemQueries.insert_item name, des, p
+
+        new_filename = update_filename name, id, Path.extname(upload.filename)
+
+        upload = %{ upload | filename: new_filename }
+
         ShoppingSiteWeb.ItemPicture.store(upload)
 
-        {p, _} = Float.parse price
-        ItemQueries.insert_item name, des, p, upload.filename
+        ItemQueries.update_image_url id, new_filename
 
         redirect conn, to: "/admin"
     end
@@ -35,6 +41,16 @@ defmodule ShoppingSiteWeb.AdminController do
         ItemQueries.insert_item name, des, p
 
         redirect conn, to: "/admin"
+    end
+
+
+    defp update_filename(filename, id, extension) do
+        cleaned = filename
+                  |> (fn name -> Regex.replace(~r/[^a-zA-Z0-9\. ]/, name, "") end).()
+                  |> (fn name -> Regex.replace(~r/ /, name, "_") end).()
+                  |> (&String.downcase/1).()
+    
+        cleaned <> to_string(id) <> extension
     end
 
 
@@ -59,7 +75,6 @@ defmodule ShoppingSiteWeb.AdminController do
     end
 
 
-    # FIXME: this is broken, update dosen't do anything and delete is throwing 'no matching clause'
     def edit(conn, %{"submit" => "delete", "item" => %{ "id" => id }}) do
 
         {num, _} = Integer.parse id

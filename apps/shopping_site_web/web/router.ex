@@ -1,19 +1,3 @@
-# TODO: improve search to also search description
-# TODO: add tokanization to search to search words individually
-
-# TODO: add someway to remove cookies after a certain amount of time
-
-# TODO: implement file validation for Arc uploading
-# TODO: implement uniform file size using Arc uploading
-
-# TODO: implement item removal feature
-# TODO: implement input validation for the forms using the changeset feature
-#       on updating items and creating items
-
-# TODO: test error conditions for item adding feature
-
-# TODO: cleanup item cards on /items page
-
 defmodule ShoppingSiteWeb.Router do
   use ShoppingSiteWeb.Web, :router
 
