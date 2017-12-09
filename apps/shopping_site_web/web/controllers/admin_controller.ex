@@ -69,7 +69,7 @@ defmodule ShoppingSiteWeb.AdminController do
 
     def search(conn, %{"search" => %{"query" => query}}) do
         items = ShoppingSite.ItemQueries.search_items query
-        render conn, "admin.html", items: items
+        render conn, "admin.html", items: items, errors: %{}
     end
 
 

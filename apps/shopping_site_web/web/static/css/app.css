@@ -9,12 +9,12 @@
 }
 
 
-.edit-container {
-    height: 820px;
-    overflow: scroll;
+.edit-search-bar {
+    width: 50%;
 }
 
 
-.edit-search-bar {
-    width: 50%;
+.edit-container {
+    height: 40em;
+    overflow: scroll;
 }
