@@ -20,7 +20,7 @@ defmodule ShoppingSiteWeb.AdminController do
                                     "image" => upload, "price" => price }}) do
         
         {p, _} = Float.parse price
-        case ItemQueries.insert_item name, des, p do
+        case ItemQueries.insert_item name, des, p, upload.filename do
             { :error, reason } ->
                 items = ItemQueries.get_all_items
                 changeset = Items.changeset(%Items{})
