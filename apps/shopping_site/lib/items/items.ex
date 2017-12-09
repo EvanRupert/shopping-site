@@ -16,7 +16,7 @@ defmodule ShoppingSite.Items do
         item
         |> cast(params, [:name, :description, :price, :image_url])
         |> validate_required([:name, :price])
-        |> validate_format(:image_url, ~r/.+\.jpg/)
+        |> validate_format(:image_url, ~r/.+(\.jpg|\.jpeg|\.gif|\.png)/)
         |> validate_field_lengths()
     end
 

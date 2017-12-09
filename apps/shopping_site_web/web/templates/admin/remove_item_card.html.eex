@@ -4,10 +4,12 @@
     <%= form_for @conn, admin_path(@conn, :edit), [as: :item], fn f -> %>
       <div class="form-group">
         <%= hidden_input f, :id, value: @item.id %>
-        <%= text_input f, :name, class: "form-control", value: @item.name %>
+        <%= text_input f, :name, class: "form-control", value: @item.name,
+                       maxLength: 100 %>
         <%= number_input f, :price, class: "form-control", step: "any", 
                          value: decimal_to_float(@item.price) %>
-        <%= textarea f, :description, class: "form-control", value: @item.description %>
+        <%= textarea f, :description, class: "form-control", value: @item.description,
+                     maxLength: 2000 %>
         <%= submit "Save", class: "btn btn-success", name: "submit", value: "edit" %>
         <%= submit "Delete", class: "btn btn-danger", name: "submit", value: "delete" %>
       </div>

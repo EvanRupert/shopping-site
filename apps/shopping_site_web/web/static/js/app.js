@@ -33,31 +33,3 @@ let node = document.getElementById('elm_item_list');
 var app = Elm.ItemList.embed(node, {
     payload: items
 });
-
-
-
-// (function() {
-//     let channel = socket.channel("item:1", {});
-
-//     channel.on("items", items => {
-//         console.log("JavaScript Received items");
-
-//         // let node = document.getElementById('elm_test');
-
-//         // if(node) {
-//         //     console.log('JavaScript found elm_test');
-//         //     Elm.ItemList.embed(node, {
-//         //         payload: items.payload
-//         //     });
-//         // } else {
-//         //     console.log('JavaScript did not find elm_test');
-//         // }
-
-//         app.ports.itemLoad.send(items.payload);
-//     });
-
-
-//     channel.join()
-//         .receive("ok", resp => { console.log("Joined item channel") })
-//         .receive("error", resp => { console.log("Error joining item channel") });
-// })();
