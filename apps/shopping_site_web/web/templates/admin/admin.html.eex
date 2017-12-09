@@ -28,6 +28,11 @@
                     <%= submit "Create Item", class: "btn btn-primary" %>
                 </div>
             <% end %>
+            <%= for {field, {reason, _}} <- @errors do %>
+                <div class="alert alert-danger">
+                    <%= "Error: '#{to_string field}' field is '#{reason}'"%>
+                </div>
+            <% end %>
         </div>
         <div class="col-6">
             <h3>Edit Items</h3>

@@ -10,5 +10,7 @@
 
     "editor.tabSize": 2,
     "editor.insertSpaces": true,
-    "editor.detectIndentation": true
+    "editor.detectIndentation": true,
+
+    "editor.minimap.enabled": false
 }

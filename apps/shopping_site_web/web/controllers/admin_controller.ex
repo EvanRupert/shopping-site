@@ -9,7 +9,7 @@ defmodule ShoppingSiteWeb.AdminController do
         if id do
             items = ItemQueries.get_all_items
             changeset = Items.changeset(%Items{})
-            render conn, "admin.html", items: items, changeset: changeset
+            render conn, "admin.html", items: items, changeset: changeset, errors: %{}
         else
             redirect conn, to: "/login"
         end
@@ -20,17 +20,22 @@ defmodule ShoppingSiteWeb.AdminController do
                                     "image" => upload, "price" => price }}) do
         
         {p, _} = Float.parse price
-        { :ok, %{ id: id } } = ItemQueries.insert_item name, des, p
+        case ItemQueries.insert_item name, des, p do
+            { :error, reason } ->
+                items = ItemQueries.get_all_items
+                changeset = Items.changeset(%Items{})
 
-        new_filename = update_filename name, id, Path.extname(upload.filename)
+                render conn, "admin.html", items: items, errors: reason.errors,
+                       changeset: changeset
+            { :ok, %{ id: id } } ->
+                new_filename = update_filename name, id, Path.extname(upload.filename)
+                upload = %{ upload | filename: new_filename }
 
-        upload = %{ upload | filename: new_filename }
-
-        ShoppingSiteWeb.ItemPicture.store(upload)
-
-        ItemQueries.update_image_url id, new_filename
-
-        redirect conn, to: "/admin"
+                ShoppingSiteWeb.ItemPicture.store(upload)
+                ItemQueries.update_image_url id, new_filename
+            
+                redirect conn, to: "/admin"
+        end
     end
 
 
@@ -38,9 +43,17 @@ defmodule ShoppingSiteWeb.AdminController do
                                     "price" => price}}) do
 
         {p, _} = Float.parse price
-        ItemQueries.insert_item name, des, p
+        
+        case ItemQueries.insert_item name, des, p do
+            { :error, reason } ->
+                items = ItemQueries.get_all_items
+                changeset = Items.changeset(%Items{})
 
-        redirect conn, to: "/admin"
+                render conn, "admin.html", items: items, errors: reason.errors,
+                       changeset: changeset
+            { :ok, _ } ->
+                redirect conn, to: "/admin"
+        end
     end
 
 
