@@ -1,30 +1,28 @@
 defmodule ShoppingSite.Items do
-    use Ecto.Schema
-    import Ecto.Changeset
+  use Ecto.Schema
+  import Ecto.Changeset
 
-    schema "items" do
-        field :name,        :string
-        field :description, :string
-        field :price,       :decimal
-        field :image_url,   :string
+  schema "items" do
+    field(:name, :string)
+    field(:description, :string)
+    field(:price, :decimal)
+    field(:image_url, :string)
 
-        timestamps()
-    end
+    timestamps()
+  end
 
+  def changeset(item, params \\ %{}) do
+    item
+    |> cast(params, [:name, :description, :price, :image_url])
+    |> validate_required([:name, :price])
+    |> validate_format(:image_url, ~r/.+(\.jpg|\.jpeg|\.gif|\.png)/)
+    |> validate_field_lengths()
+  end
 
-    def changeset(item, params \\ %{}) do
-        item
-        |> cast(params, [:name, :description, :price, :image_url])
-        |> validate_required([:name, :price])
-        |> validate_format(:image_url, ~r/.+(\.jpg|\.jpeg|\.gif|\.png)/)
-        |> validate_field_lengths()
-    end
-
-    
-    def validate_field_lengths(changeset) do
-        changeset
-        |> validate_length(:name, max: 100)
-        |> validate_length(:description, max: 500)
-        |> validate_length(:image_url, max: 200)
-    end
+  def validate_field_lengths(changeset) do
+    changeset
+    |> validate_length(:name, max: 100)
+    |> validate_length(:description, max: 500)
+    |> validate_length(:image_url, max: 200)
+  end
 end

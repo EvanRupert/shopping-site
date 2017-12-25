@@ -4,7 +4,7 @@ defmodule ShoppingSiteUmbrella.Mixfile do
   def project do
     [
       apps_path: "apps",
-      start_permanent: Mix.env == :prod,
+      start_permanent: Mix.env() == :prod,
       deps: deps()
     ]
   end
@@ -15,7 +15,6 @@ defmodule ShoppingSiteUmbrella.Mixfile do
   #
   # Run "mix help deps" for examples and options.
   defp deps do
-    [
-    ]
+    []
   end
 end

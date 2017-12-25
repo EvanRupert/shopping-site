@@ -20,14 +20,12 @@ defmodule ShoppingSiteWeb.ChannelCase do
       # Import conveniences for testing with channels
       use Phoenix.ChannelTest
 
-
       # The default endpoint for testing
       @endpoint ShoppingSiteWeb.Endpoint
     end
   end
 
   setup tags do
-
     :ok
   end
 end

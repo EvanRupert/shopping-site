@@ -7,9 +7,9 @@ defmodule ShoppingSiteWeb.ItemPicture do
   @versions [:original]
 
   def __storage, do: Arc.Storage.Local
-  
+
   def storage_dir(_, _), do: "apps/shopping_site_web/web/static/assets/images"
-  
+
   # To add a thumbnail version:
   # @versions [:original, :thumb]
 

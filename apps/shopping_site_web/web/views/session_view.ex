@@ -1,4 +1,3 @@
 defmodule ShoppingSiteWeb.SessionView do
-    use ShoppingSiteWeb.Web, :view
-
+  use ShoppingSiteWeb.Web, :view
 end
